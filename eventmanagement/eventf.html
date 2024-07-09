@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Manager</title>
+    <style>
+         h1 {
+  text-align: center;
+  background: linear-gradient(to right, #f44336, #e91e63);
+  color: #fff;
+  margin: 0; 
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 3em; /* Increased font size for more prominence */
+  letter-spacing: 2px;
+  font-family: 'Bebas Neue', sans-serif; /* Changed font family for a modern look */
+}
+
+#navbar {
+  background-color: #e91e63;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added drop-shadow for depth */
+}
+
+#navbar a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 5px; /* Adjusted border-radius for a softer look */
+  transition: background-color 0.3s;
+}
+
+#navbar a:hover {
+  background-color: #d9195a;
+}
+
+body {
+            display: flex;
+            font-family: 'Open Sans', sans-serif;
+            background-image: linear-gradient(to right, #ffc0cb, #d1c4e9);
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+
+#content {
+  flex: 1;
+  padding: 20px;
+}
+
+
+
+.outer-box {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: none; /* Initially hide all forms */
+}
+
+.outer-box h2 {
+  color: #d9195a;
+  font-family: 'Roboto', sans-serif;
+}
+
+.clearFormButton {
+  background-color: #e91e63;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.clearFormButton:hover {
+  background-color: #d9195a;
+}
+
+form {
+  background-color: #fff;
+  padding: 20px;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+}
+
+label {
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 8px;
+  display: block;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+}
+
+input[type="submit"] {
+  background-color: #2196F3;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+input[type="submit"]:hover {
+  background-color: #1976D2;
+}
+
+textarea {
+  resize: vertical;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+
+
+          .rating {
+              display: inline-flex;
+              align-items: center;
+          }
+
+          .rating input {
+              display: none;
+          }
+
+          .rating label {
+              cursor: pointer;
+              width: 40px;
+              height: 40px;
+              background-color: #ddd;
+              margin: 0 4px;
+              border-radius: 50%;
+          }
+
+          .rating label:before {
+              content: '\2605';
+              display: block;
+              text-align: center;
+              line-height: 40px;
+              font-size: 20px;
+              color: #777;
+          }
+
+          .rating input:checked ~ label {
+              background-color: #fdd835;
+          }
+
+          .rating.reversed {
+              flex-direction: row-reverse;
+          }
+
+          /* Initially hide the forms except for the image content */
+          #content img {
+              width: 99%;
+              height: 600px;
+          }
+          #clearFormButton {
+            float: right;
+            margin: 10px;
+        }
+        #navbar-user,
+        #navbar-admin {
+            background-color: #e91e63;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #navbar-user a,
+        #navbar-admin a {
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            padding: 10px;
+        }
+
+        #navbar-user a:hover,
+        #navbar-admin a:hover {
+            background-color: #d9195a;
+        }
+        #admin-login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin:  auto ; /* Center the form horizontally */
+            max-width: 300px; /* Set a maximum width for the form */
+        }
+
+
+        #adminLoginForm {
+            width: 100%;
+        }
+        
+        
+      </style>
+</head>
+<body>
+       
+  <h1><u>WELCOME TO EVENT MANAGEMENT</u></h1>
+     <!-- User Navbar -->
+     <div id="navbar-user">
+        <a href="#" onclick="showUserContent()">USER</a>
+        <a href="#" style="display:none;" onclick="showForm('registration')">User Registration</a>
+       
+        <a href="#" style="display:none;" onclick="showForm('feedback')">Feedback Form</a>
+    </div>
+
+    <!-- Admin Navbar -->
+<div id="navbar-admin">
+    <a href="#" onclick="showAdminContent()">ADMIN</a>
+    <!-- Admin Login Form (moved to the Admin Navbar) -->
+    <div id="admin-login" style="display:none;">
+        <h2 style="color: white; text-align: center;">Admin Login</h2>
+        <div class="error-message" style="display: none;">Invalid credentials. Please try again.</div>
+        <form id="adminLoginForm" onsubmit="submitAdminLoginForm(event)">
+            <label for="adminUsername">Username:</label>
+            <input type="text" id="adminUsername" name="adminUsername" required>
+
+            <label for="adminPassword">Password:</label>
+            <input type="password" id="adminPassword" name="adminPassword" required>
+
+            <input type="submit" value="Login">
+        </form>
+        <p id="loginErrorMessage" style="color: #ff0000; background-color: #ffff00; font-size: 24px; font-weight: bold; padding: 10px; border: 1px solid #f00; display: none;">Invalid credentials</p>
+
+    </div>
+   
+    <a href="#" style="display:none;" onclick="showForm('event')">Event form</a>
+    <a href="#" style="display:none;" onclick="showForm('order')">Order form</a>
+    <a href="#" style="display:none;" onclick="showForm('bill')">Bill</a>
+</div>
+
+   
+
+      <div id="content">
+          <img src="https://onehorizonproductions.com/wp-content/uploads/2022/10/Whitepetals-3-849-jpg.webp" alt="Event Management Background Image">
+      </div>
+      <script>
+        var imageUrls = [
+  "https://onehorizonproductions.com/wp-content/uploads/2022/10/Whitepetals-3-849-jpg.webp",
+  "https://media.weddingz.in/images/23544b2d88fd172c61c9b010a1980a9d/outdoor-wedding-venues-in-palace-ground-bangalore-where-you-can-plan-out-your-glamorous-ceremony.jpg",
+  "https://img.freepik.com/free-psd/empty-conference-room-generative-ai_587448-1943.jpg?w=900&t=st=1701012637~exp=1701013237~hmac=27dff99f48e616893bde3fe4a771d249fd82d980a1d33f04cec89f0c04c9b05e"
+];
+
+var currentIndex = 0;
+var contentImg = document.getElementById('content').querySelector('img');
+
+function changeImage() {
+  contentImg.src = imageUrls[currentIndex];
+  currentIndex = (currentIndex + 1) % imageUrls.length;
+}
+
+// Set an interval to change the image every 1.5 seconds (1500 milliseconds)
+setInterval(changeImage, 1500);
+          function showUserContent() {
+    var userNavbarLinks = document.querySelectorAll('#navbar-user a');
+    userNavbarLinks[0].style.display = 'none'; // Hide "User"
+    for (var i = 1; i < userNavbarLinks.length; i++) {
+        userNavbarLinks[i].style.display = 'block'; // Show other links
+    }
+
+    // Hide Admin Navbar Links
+    var adminNavbarLinks = document.querySelectorAll('#navbar-admin a');
+    adminNavbarLinks[0].style.display = 'block'; // Show "Admin"
+    for (var j = 1; j < adminNavbarLinks.length; j++) {
+        adminNavbarLinks[j].style.display = 'none'; // Hide other links
+    }
+}
+
+function showAdminContent() {
+    // Hide the "Admin" link
+    var adminLink = document.querySelector('#navbar-admin a:first-child');
+    adminLink.style.display = 'none';
+
+    // Show the login form
+    var adminLoginForm = document.getElementById('admin-login');
+    adminLoginForm.style.display = 'block';
+}
+
+        function submitAdminLoginForm(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            // Get entered username and password
+            var enteredUsername = document.getElementById('adminUsername').value;
+            var enteredPassword = document.getElementById('adminPassword').value;
+
+            // Check if credentials are valid
+            if (enteredUsername === 'sjce' && enteredPassword === 'dbms') {
+                // Hide the login form
+                document.getElementById('admin-login').style.display = 'none';
+
+                // Show the admin content
+                var adminNavbarLinks = document.querySelectorAll('#navbar-admin a');
+                for (var i = 0; i < adminNavbarLinks.length; i++) {
+                    adminNavbarLinks[i].style.display = 'block';
+                }
+            } else {
+                // Display an error message for invalid credentials
+                document.getElementById('loginErrorMessage').style.display = 'block';
+            }
+        }
+
+         function clearForm() {
+            // Get the currently displayed form
+            var currentForm = document.querySelector('.outer-box[style="display: block;"] form');
+
+            // Reset all input fields (excluding submit buttons) in the form
+            if (currentForm) {
+                var inputFields = currentForm.querySelectorAll('input:not([type="submit"]), textarea, select');
+                inputFields.forEach(function(field) {
+                    field.value = '';
+                });
+            }
+        }
+
+        // Function to toggle the visibility of the "Clear Form" button
+        function toggleClearFormButton(display) {
+            var clearFormButton = document.getElementById('clearFormButton');
+            if (clearFormButton) {
+                clearFormButton.style.display = display ? 'block' : 'none';
+            }
+        }
+
+          function showForm(formType) {
+              var forms = document.querySelectorAll('.outer-box');
+              forms.forEach(function(form) {
+                  form.style.display = 'none';
+              });
+
+              var selectedForm = document.getElementById(formType);
+              if (selectedForm) {
+                  selectedForm.style.display = 'block';
+              }
+
+              // Hide the image when a form is displayed
+              document.getElementById('content').style.display = 'none';
+          }
+          // Update the image click event to hide the button
+        document.getElementById('content').addEventListener('click', function() {
+            toggleClearFormButton(false);
+        });
+
+        // Update the form click event to show the button
+        document.getElementById('navbar').addEventListener('click', function() {
+            toggleClearFormButton(true);
+        });
+
+
+        function getCommonValuesFromRegistrationForm() {
+    return {
+        event_type_event: document.getElementById('event_type').value,
+        event_date: document.getElementById('registration_event_date').value,
+        hall_capacity_event: document.getElementById('hall_capacity').value,
+        hall_type_event: document.getElementById('hall_type').value,
+        event_timing: document.getElementById('timing').value,
+    };
+}
+
+
+function fillEventForm(commonValues) {
+    Object.entries(commonValues).forEach(([key, value]) => {
+        document.getElementById(key).value = value;
+    });
+}
+var userEmail = "";
+
+function submitRegistrationForm() {
+    var registrationForm = document.getElementById('registrationForm');
+    var registrationSuccessMessage = document.getElementById('registrationSuccessMessage');
+
+    var formData = new FormData(registrationForm);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'eventf.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Hide the form and display the success message
+            registrationForm.style.display = 'none';
+            registrationSuccessMessage.style.display = 'block';
+
+            // Store the user's email
+            userEmail = formData.get('email');
+            
+            // Get common values from the registration form
+            var commonValues = getCommonValuesFromRegistrationForm();
+
+            // Fill the event form with common values
+            fillEventForm(commonValues);
+        }
+    };
+
+    // Send the form data using AJAX
+    xhr.send(formData);
+}
+
+function submitOrderForm() {
+    var orderForm = document.getElementById('orderForm');
+    var orderSuccessMessage = document.getElementById('orderSuccessMessage');
+
+    // Use the previously stored user's email
+    document.getElementById('email_order').value = userEmail;
+
+    var formData = new FormData(orderForm);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'eventf.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Hide the form and display the success message
+            orderForm.style.display = 'none';
+            orderSuccessMessage.style.display = 'block';
+        }
+    };
+
+    // Send the form data using AJAX
+    xhr.send(formData);
+}
+
+function submitEventForm() {
+    var eventForm = document.getElementById('eventForm');
+    var eventSuccessMessage = document.getElementById('eventSuccessMessage');
+
+    var formData = new FormData(eventForm);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'eventf.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Hide the form and display the success message
+            eventForm.style.display = 'none';
+            eventSuccessMessage.style.display = 'block';
+        }
+    };
+
+    // Send the form data using AJAX
+    xhr.send(formData);
+}
+
+function submitBillForm() {
+    var billForm = document.getElementById('billForm');
+    var billSuccessMessage = document.getElementById('billSuccessMessage');
+
+    var formData = new FormData(billForm);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'eventf.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Hide the form and display the success message
+            billForm.style.display = 'none';
+            billSuccessMessage.style.display = 'block';
+        }
+    };
+
+    // Send the form data using AJAX
+    xhr.send(formData);
+}
+
+function submitFeedbackForm() {
+    var feedbackForm = document.getElementById('feedbackForm');
+    var feedbackSuccessMessage = document.getElementById('feedbackSuccessMessage');
+
+    var formData = new FormData(feedbackForm);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'eventf.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Hide the form and display the success message
+            feedbackForm.style.display = 'none';
+            feedbackSuccessMessage.style.display = 'block';
+        }
+    };
+
+    // Send the form data using AJAX
+    xhr.send(formData);
+}
+
+
+      </script>
+
+
+    <div class="outer-box" id="registration">
+    <!-- Registration Form -->
+    <h2>User Registration <button class="clearFormButton" onclick="clearForm()">Clear Form</button></h2>
+    <form id="registrationForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea>
+
+        <label for="date_of_birth">Date of Birth:</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" required>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required>
+        <label for="registration_event_date">Event Date:</label>
+<input type="date" id="registration_event_date" name="event_date" required>
+
+        
+        <label for="timing">Event Timing:</label>
+        <input type="time" id="timing" name="timing" required>
+
+       
+        <label for="event_type">Event Type:</label>
+        <input type="text" id="event_type" name="event_type" required>
+
+        <label for="hall_type">Hall Type:</label>
+        <input type="text" id="hall_type" name="hall_type" required>
+
+        <label for="hall_capacity">Hall Capacity:</label>
+        <input type="number" id="hall_capacity" name="hall_capacity" required>
+
+
+        <label for="contact_number">Contact Number:</label>
+        <input type="tel" id="contact_number" name="contact_number" required>
+        <input type="submit" value="Submit Registration" onclick="submitRegistrationForm()">
+    </form>
+    <div id="registrationSuccessMessage" style="display:none; color:green;">Registration submitted successfully</div>
+</div>
+
+
+<div class="outer-box" id="event">
+    <!-- Event Form -->
+    <h2>Event Form <button class="clearFormButton" onclick="clearForm()">Clear Form</button></h2>
+    <form id="eventForm">
+        <label for="event_code">Event Code:</label>
+        <input type="number" id="event_code" name="event_code" required>
+
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required>
+
+        <label for="event_type_event">Event Type:</label>
+        <input type="text" id="event_type_event" name="event_type_event" required>
+
+        <label for="event_date">Event Date:</label>
+        <input type="date" id="event_date" name="event_date" required>
+
+        <label for="hall_capacity_event">Hall Capacity:</label>
+        <input type="number" id="hall_capacity_event" name="hall_capacity_event" required>
+
+        <label for="hall_type_event">Hall Type:</label>
+        <input type="text" id="hall_type_event" name="hall_type_event" required>
+
+        <label for="event_timing">Event Timing:</label>
+        <input type="text" id="event_timing" name="event_timing" required>
+
+        <label for="num_of_suppliers">Number of Suppliers:</label>
+        <input type="number" id="num_of_suppliers" name="num_of_suppliers" required>
+
+        <label for="supplier_name">Supplier Name:</label>
+        <input type="text" id="supplier_name" name="supplier_name" required>
+
+        <input type="submit" value="Submit Event" onclick="submitEventForm()">
+    </form>
+    <div id="eventSuccessMessage" style="display:none; color:green;">Event submitted successfully</div>
+</div>
+<!-- Order Form -->
+<div class="outer-box" id="order">
+    <h2>Order Form <button class="clearFormButton" onclick="clearForm()">Clear Form</button></h2>
+    <form id="orderForm" action="eventf.php" method="post">
+        <label for="order_number">Order Number:</label>
+        <input type="number" id="order_number" name="order_number" required>
+
+        <label for="email_order">Email:</label>
+        <input type="email" id="email_order" name="email_order" required>
+
+        <label for="event_code_order">Event Code:</label>
+        <input type="number" id="event_code_order" name="event_code_order" required>
+
+        <input type="submit" value="Submit Order" onclick="submitOrderForm()">
+    </form>
+    <p id="orderSuccessMessage" style="display:none; color:green;">Order submitted successfully</p>
+</div>
+
+<div class="outer-box" id="bill">
+    <!-- Bill Form -->
+    <h2>Bill Form <button class="clearFormButton" onclick="clearForm()">Clear Form</button></h2>
+    <form id="billForm">
+        <label for="bill_number">Bill Number:</label>
+        <input type="number" id="bill_number" name="bill_number" required>
+
+        <label for="order_number_bill">Order Number:</label>
+        <input type="number" id="order_number_bill" name="order_number_bill" required>
+
+        <label for="email_bill">Email:</label>
+        <input type="email" id="email_bill" name="email_bill" required>
+
+        <label for="amount_bill">Amount:</label>
+        <input type="number" id="amount_bill" name="amount_bill" required>
+
+        <label for="tax">Tax:</label>
+        <input type="number" id="tax" name="tax" required>
+
+        <label for="final_amount">Final Amount:</label>
+        <input type="number" id="final_amount" name="final_amount" required>
+
+        <label for="bill_date">Bill Date:</label>
+        <input type="date" id="bill_date" name="bill_date" required>
+        <input type="submit" value="Submit Bill" onclick="submitBillForm()">
+    </form>
+    <div id="billSuccessMessage" style="display:none; color:green;">Bill submitted successfully</div>
+</div>
+
+
+<div class="outer-box" id="feedback">
+    <!-- Feedback Form -->
+    <h2>Feedback Form <button class="clearFormButton" onclick="clearForm()">Clear Form</button></h2>
+    <form id="feedbackForm">
+        <label for="feedback_email">Email:</label>
+        <input type="email" id="feedback_email" name="feedback_email" required>
+
+        <label for="feedback_text">Feedback (Minimum 10 words):</label>
+        <textarea id="feedback_text" name="feedback_text" required></textarea>
+        <label for="rating">Rating:</label>
+        <div class="rating reversed">
+            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"></label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"></label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"></label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"></label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+        </div>
+        <input type="submit" value="Submit Feedback" onclick="submitFeedbackForm()">
+    </form>
+    <div id="feedbackSuccessMessage" style="display:none; color:green;">Feedback submitted successfully</div>
+</div>
+</body>
+</html>
